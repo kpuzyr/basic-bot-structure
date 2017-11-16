@@ -1,6 +1,6 @@
 {
   "name": "basic_bot_structure",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Initial bot structure",
   "main": "main.js",
   "scripts": {
