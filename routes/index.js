@@ -1,4 +1,4 @@
-const { dbLog } = require('../libs/logs');
+const { dbLog, prepareLog } = require('../libs/logs');
 const log = require('../libs/logs').log(module);
 
 module.exports = {
@@ -18,7 +18,8 @@ module.exports = {
             if (!answer && intentData.result.metadata.intentName) {
               answer = 'Sorry, but question you\'ve asked doesn\'t have the answer. Please ask it again later.'
             }
-            dbLog(session.message, intentData, answer);
+            const log = prepareLog(session.message, intentData, answer);
+            dbLog(log);
             session.send(answer);
             session.endConversation();
           })

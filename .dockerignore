@@ -1,0 +1,9 @@
+.git/
+data/
+node_modules/
+docker-compose.yml
+Dockerfile
+.env
+.dockerignore
+.gitignore
+nodemon.json

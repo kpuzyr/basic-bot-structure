@@ -2,7 +2,7 @@ const winston = require('winston');
 
 function getLogger(module) {
   const path = module.filename.split('/').slice(-2).join('/');
-  
+
   return new winston.Logger({
     transports: [
       new winston.transports.Console({
@@ -16,24 +16,41 @@ function getLogger(module) {
 
 /**
  * Save log to db
- * @param {Object} request - request object
- * @param {Object} nlpAnswer - response from nlp
- * @param {String} answer - response to user
+ * @param {Object} log - prepared for saving log
  * @return {Promise.<T>|Promise}
  */
-function dbLog(request, nlpAnswer, answer) {
-  const log = new Logs({
-    request,
-    nlpAnswer,
-    answer
+function dbLog(log) {
+  const data = new Logs({
+    question: log.question,
+    userName: log.userName,
+    messenger: log.messenger,
+    nlpAnswer: log.nlpAnswer,
+    answer: log.answer
   });
-  return log
+
+  return data
     .save()
-    .then()
     .catch(console.error);
+}
+
+/**
+ * Parse and prepare data to save in db
+ * @param message {Object} - session.message
+ * @param nlp {Object} - response from NLP
+ * @param answer {String} - response to client
+ */
+function prepareLog(message, nlp, answer) {
+    return {
+        question: message.text,
+        userName: message.user.name,
+        messenger: message.source,
+        nlpAnswer: nlp.result.metadata.intentName,
+        answer
+    }
 }
 
 module.exports = {
   log: getLogger,
-  dbLog
+  dbLog,
+  prepareLog
 };

@@ -2,4 +2,7 @@ ecosystem.config.js
 config.json
 package-lock.json
 .idea/*
+.env
 node_modules
+data/
+nodemon.json

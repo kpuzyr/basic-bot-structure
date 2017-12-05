@@ -7,6 +7,7 @@ const restify = require('restify');
 const uniqid = require('uniqid');
 const db = require('./db');
 const { DialogFlow } = require('./nlp');
+const api = require('./api/server');
 const dialogFlow = new DialogFlow(config.get('DIALOGFLOW_ACCESS_TOKEN'));
 
 /**
@@ -50,6 +51,9 @@ server.post('/api/messages', connector.listen());
  */
 db
     .init(config.get('MONGO_URL'))
+    .then(db => {
+        return api.init(db);
+    })
     .then(() => {
         return router.init(bot, builder, dialogFlow, uniqid);
     })

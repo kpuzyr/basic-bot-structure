@@ -5,11 +5,17 @@ const mongoose = require('mongoose');
 
 const logsSchema = new mongoose.Schema(
   {
-    request: {
-      type: Object
+    question: {
+      type: String
+    },
+    userName: {
+        type: String
+    },
+    messenger: {
+        type: String
     },
     nlpAnswer: {
-      type: Object
+      type: String
     },
     answer: {
       type: String
